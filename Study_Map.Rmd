@@ -1,0 +1,94 @@
+---
+title: "Station_Map"
+author: "Jose Martinez"
+date: "2023-03-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+########load required libraries
+library(tidyverse)
+library(plotly)
+library(patchwork)
+library(Hmisc)
+library(maps)
+library(rstudioapi)
+library(ggmap)
+library(ggrepel)
+library(tmaptools)
+```
+
+
+```{r}
+# Coordinates for each area of interest
+
+rect_AOI1 <- data.frame(
+  x = c(-67.046835, -67.045263, -67.045263, -67.046835),
+  y = c(17.969893, 17.969893, 17.968908, 17.968908)
+)
+
+rect_AOI2 <- data.frame(
+  x = c(-67.040449, -67.047517, -67.047517, -67.040449),
+  y = c(17.971661, 17.971661, 17.966855, 17.966855)
+)
+
+rect_AOI3 <- data.frame(
+  x = c(-67.053125, -67.032806, -67.032806, -67.053125),
+  y = c(17.975250, 17.975250, 17.963813, 17.963813)
+)
+rect_AOI1$type <- factor("Study Site", levels = c("Study Site", "Isla Magueyes", "La Parguera"))
+rect_AOI2$type <- factor("Isla Magueyes", levels = c("Study Site", "Isla Magueyes", "La Parguera"))
+rect_AOI3$type <- factor("La Parguera", levels = c("Study Site", "Isla Magueyes", "La Parguera"))
+```
+
+
+```{r}
+# Draw the map
+register_google(key = "AIzaSyATp5NXUbpud7bPHQmGY33uID4Q4oMA8eg")
+
+AOI_map = ggmap(get_googlemap(center = c(lon = -67.043980 , lat = 17.969038), 
+                            zoom = 15,
+                            maptype = 'satellite',
+                            color = 'color',
+                            scale = 2))
+
+# Add the points
+AOI_map = AOI_map +
+  scale_fill_manual(values = c( "Study Site" = '#a1d76a', "Isla Magueyes" = "#e31a1c","La Parguera" = "#fc8d59"),
+                    name = "Areas of Interest") + 
+  geom_polygon(data = rect_AOI3, aes(x, y, group = 1, fill = type), alpha = 0.2, color = "#fc8d59", size = 1.25, show.legend = TRUE)+
+  geom_polygon(data = rect_AOI2, aes(x, y, group = 1, fill = type), alpha = 0.2, color = "#e31a1c", size = 1.25, show.legend = TRUE)+
+  geom_polygon(data = rect_AOI1, aes(x, y, group = 1, fill = type), alpha = 0.2, color = "#a1d76a", size = 1.25, show.legend = TRUE)+
+  ylab("Latitude (°N)")+ 
+  xlab("Longitude (°E)")+
+  #ggtitle("Areas of Interest")+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        panel.border = element_blank(),
+        axis.title.x = element_text(size = 48, margin = margin(b = 10)),
+        axis.text.x = element_text(size = 40, margin = margin(t = 5)),
+        axis.title.y = element_text(size = 48, margin = margin(r = 10)),
+        axis.text.y = element_text(size = 40, margin = margin(l = 5, t = 5)),
+        axis.ticks.length = unit(0.5, "cm"),
+        axis.ticks = element_line(size = 1),
+        legend.key.size = unit(4, "lines"),
+        legend.text = element_text(size = 40),
+        legend.title = element_text(size = 40),
+        legend.position= "right"
+        )+
+  guides(fill = guide_legend(override.aes = list(color = "black", size = 0.25)))  # Set legend key border color to black
+
+#print(AOI_map)
+
+
+
+ggsave("AOI_map.jpg",AOI_map,width = 32, height = 24)
+ggsave("AOI_map.pdf",AOI_map,width = 32, height = 24)
+
+```
+
+
+
+
+```{r}
