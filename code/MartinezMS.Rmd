@@ -1428,7 +1428,6 @@ raw_DO_median_2023 <- ggplot(data = DO_comparison_23) +
       "S2" = "#1f78b4",
       "S1" = "#a6cee3"
     ),
-   # labels = c("Median", "S4", "S3", "S2", "S1")
   ) +
   labs(subtitle = "(A)") +
   ggtitle("2023")+
