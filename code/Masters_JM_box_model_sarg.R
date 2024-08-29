@@ -1,3 +1,9 @@
+# Box Model to Predict Changes in Oxygen Under Increasing Sargassum Biomass and Warming 
+# Updated by: Jose Martinez 
+# Based on box model written by: Andreas Andersson and Ariel Pezner in 2023
+# Last updated: 26 August 2024
+
+
 library(tidyverse)
 library(ggplot2)
 library(plotly)
@@ -8,7 +14,7 @@ library(oce)
 library(respR)
 
 
-source('C:\\Users\\jamar\\Documents\\R\\UPRM_Masters_Thesis_JM\\calcDOatsat.R')
+source('C:\\Users\\jamar\\Documents\\R\\UPRM_Masters_Thesis_JM\\calcDOatsat.R') 
 source("C:/Users/jamar/Documents/R/UPRM_Masters_Thesis_JM/reefo2dif_JM.R")
 
 
@@ -91,7 +97,7 @@ for (i in seq(1, 5, by = 4)) {
       together_df <- data.frame(tv = result[, "time"], O2 = O2, temp = temp, tau = tau, sarg = sarg) # for plotting
       all_results_df <- rbind(all_results_df, together_df) # for plotting
     
-      last_4_days <- all_results_df %>%
+      last_4_days <- all_results_df %>% # Filter the data frame to include only the last 4 days (hours 240 to 336)
         filter(tv >= 240 & tv <= 336)
     
       min_O2_per_day <- last_4_days %>%
@@ -111,7 +117,7 @@ for (i in seq(1, 5, by = 4)) {
   }
   
 }
-# Filter the data frame to include only the last 4 days (hours 240 to 336)
+
 
 # Plot of all model data
 
