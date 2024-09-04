@@ -79,7 +79,7 @@ figS2 = AOI_map +
         )+
   guides(fill = guide_legend(override.aes = list(color = "black", size = 0.25)))  # Set legend key border color to black
 
-#print(AOI_map)
+#print(figS2)
 
 
 
@@ -89,6 +89,3 @@ ggsave("figS2.pdf",figS2,width = 32, height = 24)
 ```
 
 
-
-
-```{r}
