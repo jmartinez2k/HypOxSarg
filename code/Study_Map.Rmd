@@ -24,17 +24,17 @@ library(tmaptools)
 
 rect_AOI1 <- data.frame(
   x = c(-67.046835, -67.045263, -67.045263, -67.046835),
-  y = c(17.969893, 17.969893, 17.968908, 17.968908)
+  y = c(17.969893, 17.969893, 17.968908, 17.968908) # Study Site AOI
 )
 
 rect_AOI2 <- data.frame(
   x = c(-67.040449, -67.047517, -67.047517, -67.040449),
-  y = c(17.971661, 17.971661, 17.966855, 17.966855)
+  y = c(17.971661, 17.971661, 17.966855, 17.966855) # Isla Magueyes AOI
 )
 
 rect_AOI3 <- data.frame(
   x = c(-67.053125, -67.032806, -67.032806, -67.053125),
-  y = c(17.975250, 17.975250, 17.963813, 17.963813)
+  y = c(17.975250, 17.975250, 17.963813, 17.963813) # La Parguera AOI
 )
 rect_AOI1$type <- factor("Study Site", levels = c("Study Site", "Isla Magueyes", "La Parguera"))
 rect_AOI2$type <- factor("Isla Magueyes", levels = c("Study Site", "Isla Magueyes", "La Parguera"))
