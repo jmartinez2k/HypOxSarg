@@ -564,9 +564,7 @@ temp_stats_24 = DO_comparison_24 %>%
 
 sarg_sat <- read_excel("Sargassum_NDVI_DarkWater_Satellite_Data.xlsx", 
     col_types = c("date", "numeric", "text", 
-        "numeric", "numeric")) %>% 
-  rename(mask_area_m2=`Mask Area (m²)`) %>% 
-  rename(per_area=`Area of Coverage (%)`)
+        "numeric", "numeric")) 
 
 sarg_sat_AOI1 <- sarg_sat %>% filter(AOI == "1") %>% na.omit()
 sarg_sat_AOI2 <- sarg_sat %>% filter(AOI == "2") %>% na.omit()
