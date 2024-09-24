@@ -1090,10 +1090,10 @@ ts_plot <- cowplot::plot_grid(ts_plot_23, ts_plot_24, ncol = 2, align = "h") # C
 
 # Add legend to ts_plot
 
-fig1 <- cowplot::plot_grid(ts_plot, NULL, legend, ncol = 1, rel_heights = c(1, 0.01, 0.05), align = "v")
+fig2 <- cowplot::plot_grid(ts_plot, NULL, legend, ncol = 1, rel_heights = c(1, 0.01, 0.05), align = "v")
 
-ggsave("fig1.pdf",fig1,width = 32, height = 24)
-ggsave("fig1.jpg",fig1,width = 32, height = 24)
+ggsave("fig2.pdf",fig2,width = 32, height = 24)
+ggsave("fig2.jpg",fig2,width = 32, height = 24)
 
 
 
@@ -1248,7 +1248,7 @@ win_bar_plot = plot_duration_threshold_24 + AOI1_sarg_msk_win +  plot_layout(nco
 combined_plot <- plot_grid(sum_bar_plot, win_bar_plot, ncol = 2)
 
 # Add threshold legend to figure 
-fig2 <- cowplot::plot_grid(
+fig3 <- cowplot::plot_grid(
   combined_plot, NULL, legend,
   ncol = 1,
   rel_heights = c(1, 0.01, 0.05),
@@ -1257,7 +1257,7 @@ fig2 <- cowplot::plot_grid(
 
 #print(dur_sarg_plot)
 
-ggsave("fig2.jpg",fig2, width = 32, height = 24)
+ggsave("fig3.jpg",fig3, width = 32, height = 24)
 
 
 ```
@@ -1388,11 +1388,11 @@ min_DO_Model_mgL <- ggplot(min_O2_per_day, aes(x = sarg_kg, y = min_O2_mg_L, col
 
 sargasso_plot <- cowplot::plot_grid(incubations_plot, min_DO_Model_mgL, ncol = 1, align = 'v')
 
-fig4 <- cowplot::plot_grid(sargasso_plot, NULL, legend, ncol = 1, rel_heights = c(1, 0.0001, 0.05), align = "v")
+fig5 <- cowplot::plot_grid(sargasso_plot, NULL, legend, ncol = 1, rel_heights = c(1, 0.0001, 0.05), align = "v")
 
 
-ggsave("fig4.jpg",fig4,width = 21, height = 24)
-#ggsave("fig4.pdf",fig4,width = 21, height = 24)
+ggsave("fig5.jpg",fig5,width = 21, height = 24)
+#ggsave("fig5.pdf",fig5,width = 21, height = 24)
 
 
 

@@ -87,9 +87,35 @@ ggsave("figS2.jpg",figS2,width = 32, height = 24)
 ggsave("figS2.pdf",figS2,width = 32, height = 24)
 
 ```
-# Make a map of La Parguera
+# Map of Puerto Rico, La Parguera, and Isla Magueyes showing typical wind pattern and sargassum accumulation zone
 
 ```{r}
+a=ggmap(get_googlemap(center = c(lon = -66.5, lat = 18),
+                    zoom = 8,
+                    maptype = "satellite"))+
+  scale_y_continuous(limits = c(17.75,18.75), expand = c(0, 0)) +
+  scale_x_continuous(limits = c(-68,-65), expand = c(0, 0))+
+  xlab("Longitude")+
+  ylab("Latitude")+
+  theme(text = element_text(size=14,family="sans"))
+
+b=ggmap(get_googlemap(center = c(lon = -67.06, lat = 17.96),
+                    zoom = 14,
+                    maptype = "satellite"))+
+  xlab("Longitude")+
+  ylab("Latitude")+
+  theme(text = element_text(size=14,family="sans"))
+
+c=ggmap(get_googlemap(center = c(lon = -67.044, lat = 17.970),
+                    zoom = 17,
+                    maptype = "satellite"))+
+  xlab("Longitude")+
+  ylab("Latitude")+
+  theme(text = element_text(size=14,family="sans"))
+
+ggsave('Figure_1a.pdf', a, width = 10, height = 4, dpi = 300)
+ggsave('Figure_1b.pdf', b, width = 6, height = 6, dpi = 300)
+ggsave('Figure_1c.pdf', c, width = 6, height = 6, dpi = 300)
 
 ```
 
