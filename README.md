@@ -12,8 +12,8 @@ https://doi.org/
 
 ### Repository contains the following:
 
-1. [Raw_Data](https://github.com/apezner/GlobalReefOxygen/tree/master/Raw_Data) 
-2. [code](https://github.com/apezner/GlobalReefOxygen/tree/master/code)
+1. [Raw_Data](https://github.com/jmartinez2k/HypOxSarg/Raw_Data) 
+2. [code](https://github.com/jmartinez2k/HypOxSarg/code)
     * ***MartinezMS.Rmd*** - R Code used to analyze the dissolved oxygen (DO), temperature, current, wind, water level, and remote sensing            dataset  (creates Figures 1, 2, and 4, Supplemental Figures 1 and 3, and statistics)
     * ***Study_Map.R*** - R Code used to create map of the areas of interest for this study done with googlemaps API (creates Figures S2).
     * ***calcDOatsat.R*** - R Function used to calculate dissolved oxygen solubility in seawater (required for ***box_model_sarg.R***)
