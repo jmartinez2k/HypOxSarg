@@ -12,7 +12,7 @@ https://doi.org/
 
 ### Repository contains the following:
 
-1. [Raw_Data](https://github.com/jmartinez2k/HypOxSarg/tree/main/code/RawData) 
+1. [RawData](https://github.com/jmartinez2k/HypOxSarg/tree/main/code/RawData) 
 2. [code](https://github.com/jmartinez2k/HypOxSarg/tree/main/code)
     * ***MartinezMS.Rmd*** - R Code used to analyze the dissolved oxygen (DO), temperature, current, wind, water level, and remote sensing            dataset  (creates Figures 1, 2, and 4, Supplemental Figures 1 and 3, and statistics)
     * ***Study_Map.R*** - R Code used to create map of the areas of interest for this study done with googlemaps API (creates Figures S2).
