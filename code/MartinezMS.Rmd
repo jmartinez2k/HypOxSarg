@@ -16,6 +16,7 @@ library(readr);library(DescTools);library(ggmap);library(pastecs);library(forcat
 
 ```{r}
 #Current Data
+setwd("C:/Users/jamar/R/HypOxSarg/code/RawData")
 
 currents_data_23 <- read_csv("2207205_Flow_Current_23.csv")
 
@@ -82,6 +83,8 @@ NOAA_water_level_23$Second <- second(NOAA_water_level_23$Time)
 
 ```{r}
 #import miniDOT data
+setwd("C:/Users/jamar/R/HypOxSarg/code/RawData")
+
 S1 <- read_csv("S1_Cat.TXT", skip = 6) %>% slice(-1)
 S2 <- read_csv("S2_Cat.TXT", skip = 6) %>% slice(-1)
 S3 <- read_csv("S3_Cat.TXT", skip = 6) %>% slice(-1)
@@ -291,6 +294,8 @@ events_hyp_summary = events_hyp_all %>%
 
 ```{r}
 #Current Data
+setwd("C:/Users/jamar/R/HypOxSarg/code/RawData")
+
 current_data_24 <- read_csv("2207202_Flow_Current_24.csv")
 
 #view(current_data_24)
@@ -358,14 +363,18 @@ NOAA_water_level_24$WL <- NOAA_water_level_24$`Verified (m)` + 1.957819444
 
 ```{r setup, include=FALSE}
 #import miniDOT data
+setwd("C:/Users/jamar/R/HypOxSarg/code/RawData")
 
 X1 <- read_csv("X1_Cat.TXT", skip = 6) %>% slice(-1)
 X2 <- read_csv("X2_Cat.TXT", skip = 6) %>% slice(-1)
 
 
 #convert miniDOT data to time series objects
+X1 <- X1[!is.na(as.POSIXlt(X1$`UTC_Date_&_Time`, format="%Y-%m-%d %H:%M:%S")), ]
 X1_ts <- xts(as.numeric(X1$`Dissolved Oxygen`), order.by = as.POSIXlt(X1$`UTC_Date_&_Time`, format="%Y-%m-%d %H:%M:%S"))
+X2 <- X2[!is.na(as.POSIXlt(X2$`UTC_Date_&_Time`, format="%Y-%m-%d %H:%M:%S")), ]
 X2_ts <- xts(as.numeric(X2$`Dissolved Oxygen`), order.by = as.POSIXlt(X2$`UTC_Date_&_Time`, format="%Y-%m-%d %H:%M:%S"))
+
 
 
 # Convert the temperature data to time series objects as well
@@ -561,6 +570,7 @@ temp_stats_24 = DO_comparison_24 %>%
 ## Sargassum Remote Sensing Data for 2023 and 2024
 
 ```{r}
+setwd("C:/Users/jamar/R/HypOxSarg/code/RawData")
 
 sarg_sat <- read_excel("Sargassum_NDVI_DarkWater_Satellite_Data.xlsx", 
     col_types = c("date", "numeric", "text", 
