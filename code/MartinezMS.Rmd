@@ -590,6 +590,34 @@ sarg_sat_AOI1_dw <- sarg_sat_AOI1  %>% filter(Type == "Dark Water Events")
 sarg_sat_AOI2_dw <- sarg_sat_AOI2  %>% filter(Type == "Dark Water Events")
 sarg_sat_AOI3_dw <- sarg_sat_AOI3  %>% filter(Type == "Dark Water Events")
 
+
+# Add a year column
+sarg_sat_AOI1_sarg <- sarg_sat_AOI1_sarg %>% mutate(Year = year(Date))
+sarg_sat_AOI2_sarg <- sarg_sat_AOI2_sarg %>% mutate(Year = year(Date))
+sarg_sat_AOI3_sarg <- sarg_sat_AOI3_sarg %>% mutate(Year = year(Date))
+
+# Function to calculate mean and SD by year
+calculate_stats <- function(data, AOI) {
+  data %>%
+    group_by(Year) %>%
+    summarise(
+      Mean_Percent_Cover = mean(per_area, na.rm = TRUE),
+      SD_Percent_Cover = sd(per_area, na.rm = TRUE)
+    ) %>%
+    mutate(AOI = AOI) %>%
+    select(AOI, Year, Mean_Percent_Cover, SD_Percent_Cover)
+}
+
+# Apply function to each AOI
+stats_AOI1 <- calculate_stats(sarg_sat_AOI1_sarg, "1")
+stats_AOI2 <- calculate_stats(sarg_sat_AOI2_sarg, "2")
+stats_AOI3 <- calculate_stats(sarg_sat_AOI3_sarg, "3")
+
+# Combine results
+summary_stats <- bind_rows(stats_AOI1, stats_AOI2, stats_AOI3)
+
+print(summary_stats)
+
 ```
 
 
@@ -1156,8 +1184,8 @@ plot_duration_threshold_23 <- ggplot() +
   theme(
     panel.border = element_rect(color = "black", fill = NA, size = 1.0),  # Create a border around the plot
     axis.title.x = element_text(size = 40, margin = margin(b = 10)),  # Add space below x-axis title
-   # axis.text.x = element_text(size = 40, margin = margin(t = 5)),     # Add space above x-axis numbers
-    axis.text.x = element_blank(),
+    axis.text.x = element_text(size = 40, margin = margin(t = 5)),     # Add space above x-axis numbers
+   # axis.text.x = element_blank(),
     axis.title.y = element_text(size = 40, margin = margin(r = 10)),   # Add space to the right of y-axis title
     axis.text.y = element_text(size = 40, margin = margin(l = 5, t = 5)),   # Add space to the left of y-axis numbers
     axis.ticks = element_line(linewidth = 1,size = 1.5),
@@ -1189,8 +1217,8 @@ plot_duration_threshold_24 <- ggplot() +
   theme(
     panel.border = element_rect(color = "black", fill = NA, size = 1.0),  # Create a border around the plot
     axis.title.x = element_text(size = 40, margin = margin(b = 10)),  # Add space below x-axis title
-    #axis.text.x = element_text(size = 40, margin = margin(t = 5)),     # Add space above x-axis numbers
-    axis.text.x = element_blank(),
+    axis.text.x = element_text(size = 40, margin = margin(t = 5)),     # Add space above x-axis numbers
+    #axis.text.x = element_blank(),
     axis.title.y = element_text(size = 40, margin = margin(r = 10)),   # Add space to the right of y-axis title
     #axis.text.y = element_text(size = 40, margin = margin(l = 5, t = 5)),   # Add space to the left of y-axis numbers
     axis.text.y = element_blank(),
