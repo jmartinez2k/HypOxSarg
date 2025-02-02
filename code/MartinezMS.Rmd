@@ -8,7 +8,7 @@ output: html_document
 #load required libraries
 
 library(ggplot2);library(scales);library(ggridges);library(dplyr);library(ggthemes);library(patchwork);library(gsw);library(tidyverse);
-library(readr);library(DescTools);library(ggmap);library(pastecs);library(forcats);library(reshape2);library(lubridate);library(paletteer);library(hms);library(plotly);library(data.table);library(readxl);library(ggplot2);library(imputeTS);library(xts);library(cowplot);library(ggeffects);library(nlme);library(rsq);library(grid);library(gridExtra)
+library(readr);library(DescTools);library(ggmap);library(pastecs);library(forcats);library(reshape2);library(lubridate);library(paletteer);library(hms);library(plotly);library(data.table);library(readxl);library(ggplot2);library(imputeTS);library(xts);library(cowplot);library(ggeffects);library(nlme);library(rsq);library(grid);library(gridExtra);library(ggpubr)
 
 ```
 
@@ -610,30 +610,35 @@ my_colors <- c("N" = "#b2182b", "NE" = "#d6604d", "E" = "#92c5de", "SE" = "#6bae
 DO_plot_23 =
   ggplot() +
   geom_hline(yintercept = seq(0, 11, 1), color = "gray", linetype = "solid", size = 1, alpha = 0.5) +
+  
+  # Ensure fill is recognized as a factor
   scale_fill_manual(values = c("5" = "#d9d9d9", "4" = "#bdbdbd", "3" = "#969696","2" = "#e31a1c"),
                     labels = c("2", "3", "4", "5"),
-                    name = "Thresholds (mg" ~ L^-1 * ")") +
+                    name = expression("Thresholds (mg" ~ L^-1 * ")")) +
+  
+  # Mapping fill inside aes()
   geom_rect(aes(xmin = as.POSIXct("2023-08-18 UTC"), 
                 xmax = as.POSIXct("2023-09-26 UTC"), 
-                ymin = 0, 
-                ymax = 2, fill = "2"), 
+                ymin = 0, ymax = 2, fill = factor("2")), 
             alpha = 1.0, color = NA, show.legend = TRUE) +
+  
   geom_rect(aes(xmin = as.POSIXct("2023-08-18 UTC"), 
                 xmax = as.POSIXct("2023-09-26 UTC"), 
-                ymin = 2, 
-                ymax = 3, fill = "3"), 
+                ymin = 2, ymax = 3, fill = factor("3")), 
             alpha = 0.9, color = NA, show.legend = TRUE) +
+  
   geom_rect(aes(xmin = as.POSIXct("2023-08-18 UTC"), 
                 xmax = as.POSIXct("2023-09-26 UTC"), 
-                ymin = 3, 
-                ymax = 4, fill = "4"), 
+                ymin = 3, ymax = 4, fill = factor("4")), 
             alpha = 0.9, color = NA, show.legend = TRUE) +
+  
   geom_rect(aes(xmin = as.POSIXct("2023-08-18 UTC"), 
                 xmax = as.POSIXct("2023-09-26 UTC"), 
-                ymin = 4, 
-                ymax = 5, fill = "5"), 
+                ymin = 4, ymax = 5, fill = factor("5")), 
             alpha = 0.9, color = NA, show.legend = TRUE) +
+  
   geom_line(data = DO_comparison_23, aes(x = datetime, y = median_DO_mg_L), size = 2) +
+  
   coord_cartesian(xlim = as.POSIXct(c("2023-08-18 UTC", "2023-09-26 UTC")), expand = FALSE) + 
   scale_x_datetime(breaks = common_breaks_23, expand = common_expand, labels = function(x) format(x, "%m-%d")) +
   scale_y_continuous(limits = c(0, 11), expand = c(0.00, 0.00), breaks = seq(0, 11, 2), labels = scales::number_format(scale = 1)) +
@@ -641,25 +646,23 @@ DO_plot_23 =
   xlab("") +
   labs(subtitle = "(E)") +
   theme(panel.border = element_rect(color = "black", fill = NA, size = 1.0),
-        axis.title.x = element_text(size = 40, margin = margin(b = 10)),
-        axis.text.x = element_text(size = 40, margin = margin(t = 5)),
-        axis.title.y = element_text(size = 40, margin = margin(r = 10)),
-        axis.text.y = element_text(size = 40, margin = margin(l = 5, t = 5)),
+        axis.title.x = element_text(size = 35, margin = margin(b = 10)),
+        axis.text.x = element_text(size = 35, margin = margin(t = 5)),
+        axis.title.y = element_text(size = 35, margin = margin(r = 10)),
+        axis.text.y = element_text(size = 35, margin = margin(l = 5, t = 5)),
         axis.ticks.length = unit(0.5, "cm"),
         axis.ticks = element_line(size = 1),
-       # axis.text.y = element_blank(),
         plot.margin = margin(t = 15, l = 15),
         panel.background = element_rect(fill = "white"), 
-        plot.subtitle = element_text(size = 36, face = "bold") ,
+        plot.subtitle = element_text(size = 36, face = "bold"),
         legend.key.size = unit(4, "lines"),
         legend.text = element_text(size = 40),
         legend.title = element_text(size = 48),
         legend.position = "bottom"
-        #legend.justification = c("left")
   )
   
 
-#print(DO_plot_23)
+print(DO_plot_23)
 
 
 temp_plot_23 =
@@ -675,10 +678,10 @@ temp_plot_23 =
   scale_y_continuous(limits = c(27,33), expand = c(0.0,0.00),breaks = seq(27,33,2))+
   labs(subtitle = "(A)") +
   theme(panel.border = element_rect(color = "black", fill = NA, size = 1.0),  # Create a border around the plot
-        axis.title.x = element_text(size = 40, margin = margin(b = 10)),  # Add space below x-axis title
-       #axis.text.x = element_text(size = 40, margin = margin(t = 5)),     # Add space above x-axis numbers
-        axis.title.y = element_text(size = 40, margin = margin(r = 10)),   # Add space to the right of y-axis title
-        axis.text.y = element_text(size = 40, margin = margin(l = 5)),   # Add space to the left of y-axis numbers
+        axis.title.x = element_text(size = 35, margin = margin(b = 10)),  # Add space below x-axis title
+       #axis.text.x = element_text(size = 35, margin = margin(t = 5)),     # Add space above x-axis numbers
+        axis.title.y = element_text(size = 35, margin = margin(r = 10)),   # Add space to the right of y-axis title
+        axis.text.y = element_text(size = 35, margin = margin(l = 5)),   # Add space to the left of y-axis numbers
         plot.title = element_text(hjust = 0.5, vjust = 1, size = 52, face = "bold", margin = margin(b = 10)),
         axis.text.x = element_blank(),
         #axis.text.y = element_blank(),
@@ -715,9 +718,9 @@ stick_wind_plot_23 <-
     expand = common_expand,labels = function(x) format(x, "%m-%d")
   ) +
     scale_y_continuous(limits = c(-12,13), expand = c(0.00,0.00),breaks = seq(-12,13,6))+
-    #ylab("Wind (kn)")+
+    ylab("Wind (kn)")+
     xlab("")+
-    ylab("")+
+    #ylab("")+
     scale_color_manual(values = my_colors) +
     guides(
     color = guide_legend(
@@ -731,12 +734,12 @@ stick_wind_plot_23 <-
        ) +
     labs(subtitle = "(D)") +
     theme(panel.border = element_rect(color = "black", fill = NA, size = 1.0),  # Create a border around the plot
-        axis.title.x = element_text(size = 40, margin = margin(b = 10)),  # Add space below x-axis title
+        axis.title.x = element_text(size = 35, margin = margin(b = 10)),  # Add space below x-axis title
         #axis.text.x = element_text(size = 40, margin = margin(t = 5)),     # Add space above x-axis numbers
-        #axis.title.y = element_text(size = 40, margin = margin(r = 10)),   # Add space to the right of y-axis title
-        #axis.text.y = element_text(size = 40, margin = margin(l = 5)),   # Add space to the left of y-axis numbers
+        axis.title.y = element_text(size = 35, margin = margin(r = 10)),   # Add space to the right of y-axis title
+        axis.text.y = element_text(size = 35, margin = margin(l = 5)),   # Add space to the left of y-axis numbers
         axis.text.x = element_blank(),
-        axis.text.y = element_blank(),
+        #axis.text.y = element_blank(),
         axis.ticks.length = unit(0.5, "cm"),
         axis.ticks = element_line(size = 1),plot.margin = margin(t = 15, l = 15),# Adjust axis tick size
         panel.background = element_rect(fill = "white"), 
@@ -749,7 +752,7 @@ stick_wind_plot_23 <-
        )
 
 
-#print(stick_wind_plot_23)
+print(stick_wind_plot_23)
 
 stick_current_plot_23 = 
     currents_data_23 %>%
@@ -770,15 +773,15 @@ stick_current_plot_23 =
   ) +
     scale_y_continuous(limits = c(-3,3), expand = c(0.0,0.00),breaks = seq(-3,3,2))+
     scale_color_manual(values = my_colors) +
-    ylab(expression("\n Current (cm" ~ s^-1 * ")"))+
+    ylab(expression("Current (cm" ~ s^-1 * ")"))+
     xlab("")+
     scale_color_manual(values = my_colors) +
     labs(subtitle = "(C)") +
     theme(panel.border = element_rect(color = "black", fill = NA, size = 1.0),  # Create a border around the plot
-        axis.title.x = element_text(size = 40, margin = margin(b = 10)),  # Add space below x-axis title
-    #    axis.text.x = element_text(size = 40, margin = margin(t = 5)),     # Add space above x-axis numbers
-        axis.title.y = element_text(size = 40, margin = margin(r = 10)),   # Add space to the right of y-axis title
-        axis.text.y = element_text(size = 40, margin = margin(l = 5)),   # Add space to the left of y-axis numbers
+        axis.title.x = element_text(size = 35, margin = margin(b = 10)),  # Add space below x-axis title
+    #    axis.text.x = element_text(size = 35, margin = margin(t = 5)),     # Add space above x-axis numbers
+        axis.title.y = element_text(size = 35, margin = margin(l = -10,r = 0)),   # Add space to the right of y-axis title
+        axis.text.y = element_text(size = 35, margin = margin(l = 5)),   # Add space to the left of y-axis numbers
         axis.text.x = element_blank(),
         axis.ticks.length = unit(0.5, "cm"),
         axis.ticks = element_line(size = 1),plot.margin = margin(t = 15, l = 15),# Adjust axis tick size
@@ -807,17 +810,17 @@ NOAA_water_level_plot_23 =
   ) +
   #scale_y_continuous(limits = c(2,2.6), expand = c(0.0,0.00),breaks = seq(2,2.6,0.2))+
   scale_y_continuous(limits = c(-0.1,0.6), expand = c(0.0,0.00),breaks = seq(-0.1,0.6,0.2))+ # For NOAA data only
-  #ylab("Water Level (m)")+
-  ylab("")+
+  ylab("Water Level (m)")+
+  #ylab("")+
   xlab("")+
   labs(subtitle = "(B)") +
   theme(panel.border = element_rect(color = "black", fill = NA, size = 1.0),  # Create a border around the plot
-        axis.title.x = element_text(size = 40, margin = margin(b = 10)),  # Add space below x-axis title
-    #    axis.text.x = element_text(size = 40, margin = margin(t = 5)),     # Add space above x-axis numbers
-        axis.title.y = element_text(size = 40, margin = margin(r = 10)),   # Add space to the right of y-axis title
-        #axis.text.y = element_text(size = 40, margin = margin(l = 5)),   # Add space to the left of y-axis numbers
+        axis.title.x = element_text(size = 35, margin = margin(b = 10)),  # Add space below x-axis title
+       # axis.text.x = element_text(size = 35, margin = margin(t = 5)),     # Add space above x-axis numbers
+        axis.title.y = element_text(size = 35, margin = margin(r = 10)),   # Add space to the right of y-axis title
+        axis.text.y = element_text(size = 35, margin = margin(l = 5)),   # Add space to the left of y-axis numbers
         axis.text.x = element_blank(),
-        axis.text.y = element_blank(),
+       # axis.text.y = element_blank(),
         axis.ticks.length = unit(0.5, "cm"),
         axis.ticks = element_line(size = 1),plot.margin = margin(t = 15, l = 15),# Adjust axis tick size
        # panel.grid.major = element_line(color = "gray", size = 0.1),             # Remove major grid lines
@@ -835,7 +838,10 @@ print(NOAA_water_level_plot_23)
 
 # Extract DO legend 
 
-legend <- cowplot::get_legend(DO_plot_23)
+legends <- cowplot::get_legend(DO_plot_23)
+
+print(legend)
+
 
 # Remove legends from each plot
 temp_plot_23 <- temp_plot_23 + theme(legend.position = "none")
@@ -855,7 +861,9 @@ ts_plot_23 <- temp_plot_23 +
 
 print(ts_plot_23)
 
-#ggsave("ts_plot_23.jpg",ts_plot_23,width = 32, height = 24)
+
+
+ggsave("ts_plot_23.jpg",ts_plot_23,width = 32, height = 24)
 ```
 
 ## Time Series Late Winter 2024 Plot(s)
@@ -978,18 +986,18 @@ stick_wind_plot_24 <-
     expand = common_expand,labels = function(x) format(x, "%m-%d")
   ) +
     scale_y_continuous(position = "right",limits = c(-12,13), expand = c(0.00,0.00),breaks = seq(-12,13,6))+
-    ylab("Wind (kn) \n")+
+    ylab("Wind (kn)")+
     xlab("")+
-  #  ylab("")+
+    ylab("")+
     scale_color_manual(values = my_colors) +
     labs(subtitle = "(I)") +
     theme(panel.border = element_rect(color = "black", fill = NA, size = 1.0),  # Create a border around the plot
         axis.title.x = element_text(size = 40, margin = margin(b = 10)),  # Add space below x-axis title
         #axis.text.x = element_text(size = 40, margin = margin(t = 5)),     # Add space above x-axis numbers
         axis.title.y = element_text(size = 40, margin = margin(r = 10)),   # Add space to the right of y-axis title
-        axis.text.y = element_text(size = 40, margin = margin(l = 5)),
+        #axis.text.y = element_text(size = 40, margin = margin(l = 5)),
         axis.text.x = element_blank(),
-       # axis.text.y = element_blank(),
+        axis.text.y = element_blank(),
         axis.ticks.length = unit(0.5, "cm"),
         axis.ticks = element_line(size = 1),
         plot.title = element_text(hjust = 0.5, vjust = 1, size = 52, face = "bold", margin = margin(b = 10)),
@@ -1002,7 +1010,7 @@ stick_wind_plot_24 <-
         legend.position = "none"
        )
 
-#print(stick_wind_plot_24)
+print(stick_wind_plot_24)
 
 stick_current_plot_24 = 
     current_data_24 %>%
@@ -1058,16 +1066,16 @@ NOAA_water_level_plot_24 =
   ) +
   scale_y_continuous(position = "right",limits = c(-.1, 0.6), expand = c(0.0, 0.00), breaks = seq(-0.1, 0.6, 0.2)) +
   ylab(" Water Level (m)")+
-  #ylab("")+
+  ylab("")+
   xlab("")+
   labs(subtitle = "(G)") +
   theme(panel.border = element_rect(color = "black", fill = NA, size = 1.0),  # Create a border around the plot
         #axis.title.x = element_text(size = 40, margin = margin(b = 10)),  # Add space below x-axis title
         #axis.text.x = element_text(size = 40, margin = margin(t = 5)),     # Add space above x-axis numbers
         axis.title.y = element_text(size = 40, margin = margin(r = 10)),   # Add space to the right of y-axis title
-        axis.text.y = element_text(size = 40, margin = margin(l = 5)),   # Add space to the left of y-axis numbers
+        #axis.text.y = element_text(size = 40, margin = margin(l = 5)),   # Add space to the left of y-axis numbers
         axis.text.x = element_blank(),
-        #axis.text.y = element_blank(),
+        axis.text.y = element_blank(),
         axis.ticks.length = unit(0.5, "cm"),
         axis.ticks = element_line(size = 1),
         plot.margin = margin(t = 15, l = 15),# Adjust axis tick size
@@ -1096,17 +1104,32 @@ ts_plot_24 <- temp_plot_24 +
               DO_plot_24 + 
               plot_layout(ncol = 1)
 
-ts_plot <- cowplot::plot_grid(ts_plot_23, ts_plot_24, ncol = 2, align = "h") # Combine both 2023 and 2024 time series plot into one figure
+# Remove legends from each plot just in case
+temp_plot_24 <- temp_plot_24 + theme(legend.position = "none")
+NOAA_water_level_plot_24 <- NOAA_water_level_plot_24 + theme(legend.position = "none")
+stick_current_plot_24 <- stick_current_plot_24 + theme(legend.position = "none")
+stick_wind_plot_24 <- stick_wind_plot_24 + theme(legend.position = "none")
+DO_plot_24 <- DO_plot_24 + theme(legend.position = "none")
 
-# Add legend to ts_plot
+ts_plot_24 <- temp_plot_24 + 
+              NOAA_water_level_plot_24 +
+              stick_current_plot_24 + 
+              stick_wind_plot_24 + 
+              DO_plot_24 + 
+              plot_layout(ncol = 1)
 
-fig2 <- cowplot::plot_grid(ts_plot, NULL, legend, ncol = 1, rel_heights = c(1, 0.01, 0.05), align = "v")
+# Combine the 2023 and 2024 plots side by side
+ts_plot <- cowplot::plot_grid(ts_plot_23, ts_plot_24, ncol = 2, align = "h")
 
-ggsave("fig2.pdf",fig2,width = 32, height = 24)
-ggsave("fig2.jpg",fig2,width = 32, height = 24)
+# Extract the legend from one of the plots (e.g., DO_plot_23)
+legend <- cowplot::get_legend(DO_plot_23 + theme(legend.position = "bottom"))
 
+# Combine the main plot and the legend
+fig2 <- cowplot::plot_grid(ts_plot, legend, ncol = 1, rel_heights = c(1, 0.1))
 
-
+# Save the final plot
+ggsave("fig2.pdf", fig2, width = 32, height = 24)
+ggsave("fig2.jpg", fig2, width = 32, height = 24)
 
 
 
@@ -1275,7 +1298,7 @@ ggsave("fig3.jpg",fig3, width = 32, height = 24)
 # Incubations
 
 ```{r}
-
+setwd("C:/Users/jamar/R/HypOxSarg/code/RawData")
 #import incubation data and rename columns
 incubations = read_excel("MS_Thesis_JM_Sarg_Incubations.xlsx") %>% 
   filter(!str_detect(Sample, 'GGA')) %>% 
