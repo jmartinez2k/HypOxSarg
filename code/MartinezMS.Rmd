@@ -280,6 +280,11 @@ temp_stats = DO_comparison_23 %>%
   event_hyp_2 =  event_hyp_2 %>% 
     mutate(threshold = as.factor("2"))  
   
+  event_hyp_2$Date <- as.POSIXct(event_hyp_2$Date, tz = "UTC")
+  event_hyp_3$Date <- as.POSIXct(event_hyp_3$Date, tz = "UTC")
+  event_hyp_4$Date <- as.POSIXct(event_hyp_4$Date, tz = "UTC")
+  event_hyp_5$Date <- as.POSIXct(event_hyp_5$Date, tz = "UTC")
+  
   events_hyp_all = rbind(event_hyp_5,event_hyp_4,event_hyp_3,event_hyp_2)
  
 events_hyp_summary = events_hyp_all %>% 
@@ -618,6 +623,18 @@ summary_stats <- bind_rows(stats_AOI1, stats_AOI2, stats_AOI3)
 
 print(summary_stats)
 
+event_hyp_5$Date <- as.POSIXct(event_hyp_5$Date, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")
+event_hyp_4$Date <- as.POSIXct(event_hyp_4$Date, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")
+event_hyp_3$Date <- as.POSIXct(event_hyp_3$Date, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")
+event_hyp_2$Date <- as.POSIXct(event_hyp_2$Date, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")
+
+event_hyp_5_24$Date <- as.POSIXct(event_hyp_5_24$Date, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")
+event_hyp_4_24$Date <- as.POSIXct(event_hyp_4_24$Date, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")
+event_hyp_3_24$Date <- as.POSIXct(event_hyp_3_24$Date, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")
+event_hyp_2_24$Date <- as.POSIXct(event_hyp_2_24$Date, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")
+
+sarg_sat_AOI1_sarg$Date <- as.POSIXct(sarg_sat_AOI1_sarg$Date, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")
+
 ```
 
 
@@ -666,7 +683,6 @@ DO_plot_23 =
             alpha = 0.9, color = NA, show.legend = TRUE) +
   
   geom_line(data = DO_comparison_23, aes(x = datetime, y = median_DO_mg_L), size = 2) +
-  
   coord_cartesian(xlim = as.POSIXct(c("2023-08-18 UTC", "2023-09-26 UTC")), expand = FALSE) + 
   scale_x_datetime(breaks = common_breaks_23, expand = common_expand, labels = function(x) format(x, "%m-%d")) +
   scale_y_continuous(limits = c(0, 11), expand = c(0.00, 0.00), breaks = seq(0, 11, 2), labels = scales::number_format(scale = 1)) +
@@ -1167,17 +1183,24 @@ ggsave("fig2.jpg", fig2, width = 32, height = 24)
 # Duration Plots
 
 ```{r}
+
 plot_duration_threshold_23 <- ggplot() +
   geom_hline(yintercept = seq(0, 20, 2.5), color = "gray", linetype = "solid", size = 1, alpha = 0.5) +
-  scale_fill_manual(values = c("5" = "#d9d9d9", "4" = "#bdbdbd", "3" = "#969696","2" = "#e31a1c"),
-                    labels = c("5", "4", "3", "2"),
-                    name = "Thresholds (mg/L)") +
-  geom_bar(data = event_hyp_5, aes(x = Date, y = dur_hrs, fill = factor(threshold)), stat = "identity", position = "stack", width = 0.7) +
-  geom_bar(data = event_hyp_4, aes(x = Date, y = dur_hrs, fill = factor(threshold)), stat = "identity", position = "stack", width = 0.7) +
-  geom_bar(data = event_hyp_3, aes(x = Date, y = dur_hrs, fill = factor(threshold)), stat = "identity", position = "stack", width = 0.7) +
-  geom_bar(data = event_hyp_2, aes(x = Date, y = dur_hrs, fill = factor(threshold)), stat = "identity", position = "stack", width = 0.7) +
+  geom_bar(data = event_hyp_5, aes(x = Date, y = dur_hrs, fill = threshold), 
+           stat = "identity", position = "stack", alpha = 0.9) +
+  geom_bar(data = event_hyp_4, aes(x = Date, y = dur_hrs, fill = threshold), 
+           stat = "identity", position = "stack", alpha = 0.9) +
+  geom_bar(data = event_hyp_3, aes(x = Date, y = dur_hrs, fill = threshold), 
+           stat = "identity", position = "stack", alpha = 0.9) +
+  geom_bar(data = event_hyp_2, aes(x = Date, y = dur_hrs, fill = threshold), 
+           stat = "identity", position = "stack", alpha = 0.9) +
+  scale_fill_manual(values = c("5" = "#d9d9d9", "4" = "#bdbdbd", "3" = "#969696", "2" = "#e31a1c")) +
+  scale_x_datetime(breaks = common_breaks_23, expand = common_expand, labels = function(x) format(x, "%m-%d")) +
   labs(title = " ", x = " ", y = "Duration (hours)\n", fill = "Threshold (mg/L)") +
-  scale_x_date(date_labels = "%m-%d", date_breaks = "weeks", expand = c(0, 1)) +
+  #scale_x_date(date_labels = "%m-%d", date_breaks = "weeks", expand = c(0, 1))+
+  coord_cartesian(xlim = as.POSIXct(c("2023-08-18 UTC", "2023-09-26 UTC")), expand = FALSE) + 
+  #scale_x_datetime(date_labels = "%m-%d", date_breaks = "1 week")+
+  #scale_x_datetime(breaks = common_breaks_23, expand = common_expand, labels = function(x) format(x, "%m-%d")) +
   scale_y_continuous(limits = c(0, 20), expand = c(0, 0), breaks = seq(0, 20, 5)) +
   labs(subtitle = "(A)") +
   ggtitle("2023")+
@@ -1199,18 +1222,28 @@ plot_duration_threshold_23 <- ggplot() +
     legend.position = "none"
   )  # Adjust the theme as needed
 
-#print(plot_duration_threshold_23)
+print(plot_duration_threshold_23)
 
 plot_duration_threshold_24 <- ggplot() +
   geom_hline(yintercept = seq(0, 20, 2.5), color = "gray", linetype = "solid", size = 1, alpha = 0.5) +
-  geom_bar(data = event_hyp_5_24, aes(x = Date, y = dur_hrs, fill = factor(threshold)), stat = "identity", position = "stack", width = 0.7) +
-  geom_bar(data = event_hyp_4_24, aes(x = Date, y = dur_hrs, fill = factor(threshold)), stat = "identity", position = "stack", width = 0.7) +
-  geom_bar(data = event_hyp_3_24, aes(x = Date, y = dur_hrs, fill = factor(threshold)), stat = "identity", position = "stack", width = 0.7) +
-  geom_bar(data = event_hyp_2_24, aes(x = Date, y = dur_hrs, fill = factor(threshold)), stat = "identity", position = "stack", width = 0.7) +
+  geom_bar(data = event_hyp_5_24, aes(x = Date, y = dur_hrs, fill = threshold), 
+           stat = "identity", position = "stack", alpha = 0.9) +
+  geom_bar(data = event_hyp_4_24, aes(x = Date, y = dur_hrs, fill = threshold), 
+           stat = "identity", position = "stack", alpha = 0.9) +
+  geom_bar(data = event_hyp_3_24, aes(x = Date, y = dur_hrs, fill = threshold), 
+           stat = "identity", position = "stack", alpha = 0.9) +
+  geom_bar(data = event_hyp_2_24, aes(x = Date, y = dur_hrs, fill = threshold), 
+           stat = "identity", position = "stack", alpha = 0.9) +
   scale_fill_manual(values = c("#d9d9d9", "#bdbdbd", "#969696", "#e31a1c")) +
   labs(title = " ", x = " ", y = "Duration (hours)", fill = "Threshold (mg/L)") +
   ylab("")+
-  scale_x_date(date_labels = "%m-%d", date_breaks = "week", expand = c(0, 1)) +
+  #scale_x_date(date_labels = "%m-%d", date_breaks = "week", expand = c(0, 1)) +
+  #coord_cartesian(xlim = as.POSIXct(c("2024-03-06 UTC", "2024-04-08 UTC")), expand = FALSE) +
+  scale_x_datetime(
+    breaks = common_breaks_24,
+    expand = common_expand,
+    labels = function(x) format(x, "%m-%d")
+  ) +
   scale_y_continuous(limits = c(0, 20), expand = c(0, 0), breaks = seq(0, 20, 5)) + 
   labs(subtitle = "(C)") +
   ggtitle("2024")+
@@ -1233,7 +1266,7 @@ plot_duration_threshold_24 <- ggplot() +
     legend.position = "none"
   )  # Adjust the theme as needed
 
-#print(plot_duration_threshold_24)
+print(plot_duration_threshold_24)
 
 
 AOI1_sarg_msk_sum = ggplot()+
