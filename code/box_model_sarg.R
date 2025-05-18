@@ -14,8 +14,8 @@ library(oce)
 library(respR)
 
 
-source('C:\\Users\\jamar\\Documents\\R\\UPRM_Masters_Thesis_JM\\calcDOatsat.R') 
-source("C:/Users/jamar/Documents/R/UPRM_Masters_Thesis_JM/reefo2dif_JM.R")
+source('C:\\Users\\jamar\\R\\HypOxSarg\\code\\calcDOatsat.R') 
+source("C:/Users/jamar/R/HypOxSarg/code/reefo2dif_JM.R")
 
 
 
