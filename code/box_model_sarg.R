@@ -136,13 +136,13 @@ min_DO_Model <- ggplot(min_O2_per_day, aes(x = sarg_kg, y = jitter(min_O2), colo
   geom_point(size = 2) +
   #geom_line(aes(y = min_O2, x = sarg_kg), color = factor(temp), shape = factor(tau)) +
   geom_hline(yintercept = 61, linetype = "dashed", color = "#e31a1c") +
-  geom_hline(yintercept = 92, linetype = "dashed", color = "#969696") +
-  geom_hline(yintercept = 122, linetype = "dashed", color = "#bdbdbd") +
-  geom_hline(yintercept = 153, linetype = "dashed", color = "#d9d9d9") +
+  geom_hline(yintercept = 92, linetype = "dashed", color = "#505050") +
+  geom_hline(yintercept = 122, linetype = "dashed", color = "#606060") +
+  geom_hline(yintercept = 153, linetype = "dashed", color = "#969696") +
   ylim(0, NA) +
   labs(x = "Sargassum (kg)", y = expression("Daily Min Dissolved Oxygen (" * mu * "mol kg"^-1 * ")")) +
   #scale_color_manual(name = "Temperature", values = c("#8856a7", "#31a354"), labels = c("28°C", "31°C")) +
-  scale_color_manual(name = "Temperature", values = c("#2166ac", "#ef8a62"), labels = c("28°C", "31°C")) +
+  scale_color_manual(name = "Temperature", values = c("#00B4FF", "#00FF7F"), labels = c("28°C", "31°C")) +
   #scale_shape_manual(name = "Residence Time", values = c("1" = 1, "5" = 16), labels = c("1 hr", "5 hr")) +
   scale_shape_manual(name = "Residence Time", values = c("1" = 1, "5" = 16,"10" = 2), labels = c("1 hr", "5 hr","10 hr")) +
   theme_minimal()

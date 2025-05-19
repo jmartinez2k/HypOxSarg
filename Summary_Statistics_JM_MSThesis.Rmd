@@ -1,0 +1,256 @@
+---
+title: "Sum_Statistics_Thesis"
+output: html_document
+date: "2025-01-16"
+---
+
+```{r}
+# Load necessary packages
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(grid)
+```
+
+```{r}
+# Current speed and heading (calculate SD for entire study period)
+
+currents_data_23 = currents_data_23 %>%
+  filter(Time >= as.POSIXct("2023-08-18") & Time < as.POSIXct("2023-09-26 UTC"))
+
+current_avg_sd <- currents_data_23 %>%
+  summarize(
+    mean_value = round(mean(`Speed (cm/s)`, na.rm = TRUE), 2),
+    sd_value = round(sd(`Speed (cm/s)`, na.rm = TRUE), 2),
+    min_value = round(min(`Speed (cm/s)`, na.rm = TRUE), 2),
+    max_value = round(max(`Speed (cm/s)`, na.rm = TRUE), 2)
+  ) %>%
+  mutate(Parameter = "Current Speed (cm/s)")
+
+# Wind speed and direction (calculate SD for entire study period)
+
+# Convert the DateTime column to POSIXct if not already
+wind_data_23$Time <- as.POSIXct(wind_data_23$Time, tz = "UTC")
+
+# Filter the data for the date range "2023-08-18 UTC" to "2023-09-26 UTC"
+wind_data_23 <- wind_data_23 %>%
+  filter(Time >= as.POSIXct("2023-08-18 UTC") & Time <= as.POSIXct("2023-09-26 UTC"))
+
+
+wind_avg_sd <- wind_data_23 %>%
+  summarize(
+    mean_value = round(mean(`Wind Speed (kn)`, na.rm = TRUE), 2),
+    sd_value = round(sd(`Wind Speed (kn)`, na.rm = TRUE), 2),
+    min_value = round(min(`Wind Speed (kn)`, na.rm = TRUE), 2),
+    max_value = round(max(`Wind Speed (kn)`, na.rm = TRUE), 2)
+  ) %>%
+  mutate(Parameter = "Wind Speed (cm/s)")
+
+# Water level (calculate SD for entire study period)
+
+# Convert the DateTime column to POSIXct if not already
+NOAA_water_level_23$Time <- as.POSIXct(NOAA_water_level_23$Time, tz = "UTC")
+
+# Filter the data for the date range "2023-08-18 UTC" to "2023-09-26 UTC"
+NOAA_water_level_23 <- NOAA_water_level_23 %>%
+  filter(Time >= as.POSIXct("2023-08-18 UTC") & Time <= as.POSIXct("2023-09-26 UTC"))
+
+
+water_level_avg_sd <- NOAA_water_level_23 %>%
+  summarize(
+    mean_value = round(mean(`Verified (m)`, na.rm = TRUE), 2),
+    sd_value = round(sd(`Verified (m)`, na.rm = TRUE), 2),
+    min_value = round(min(`Verified (m)`, na.rm = TRUE), 2),
+    max_value = round(max(`Verified (m)`, na.rm = TRUE), 2)
+  ) %>%
+  mutate(Parameter = "Water Level (m)")
+
+# Dissolved oxygen (calculate SD for entire study period)
+DO_comparison_23 <- DO_comparison_23 %>%
+  filter(datetime >= as.POSIXct("2023-08-18 UTC") & datetime <= as.POSIXct("2023-09-26 UTC"))
+
+
+DO_avg_sd <- DO_comparison_23 %>%
+  summarize(
+    mean_value = round(mean(median_DO_mg_L, na.rm = TRUE), 2),
+    sd_value = round(sd(median_DO_mg_L, na.rm = TRUE), 2),
+    min_value = round(min(median_DO_mg_L, na.rm = TRUE), 2),
+    max_value = round(max(median_DO_mg_L, na.rm = TRUE), 2)
+  ) %>%
+  mutate(Parameter = "Dissolved Oxygen (mg/L)")
+
+# Temperature (calculate SD for entire study period)
+temp_avg_sd <- DO_comparison_23 %>%
+  summarize(
+    mean_value = round(mean(median_temp, na.rm = TRUE), 2),
+    sd_value = round(sd(median_temp, na.rm = TRUE), 2),
+    min_value = round(min(median_temp, na.rm = TRUE), 2),
+    max_value = round(max(median_temp, na.rm = TRUE), 2)
+  ) %>%
+  mutate(Parameter = "Temperature (°C)")
+
+# Combine all average and SD summaries for the entire study period
+summary_table_avg_sd <- bind_rows(
+  current_avg_sd,
+  wind_avg_sd,
+  water_level_avg_sd,
+  DO_avg_sd,
+  temp_avg_sd
+)
+
+# Rearrange columns for readability
+summary_table_avg_sd <- summary_table_avg_sd %>%
+  select(Parameter, everything())
+
+# View the summary table with averages and SDs for the entire study period
+print(summary_table_avg_sd)
+
+# Create the table without row numbers and underscores in column names
+
+colnames(summary_table_avg_sd) <- gsub("mean", "Mean", colnames(summary_table_avg_sd))
+colnames(summary_table_avg_sd) <- gsub("min", "Min", colnames(summary_table_avg_sd))
+colnames(summary_table_avg_sd) <- gsub("max", "Max", colnames(summary_table_avg_sd))
+colnames(summary_table_avg_sd) <- gsub("sd", "SD", colnames(summary_table_avg_sd))
+
+summary_table_23_cleaned <- summary_table_avg_sd
+colnames(summary_table_23_cleaned) <- gsub("_value", " ", colnames(summary_table_23_cleaned))
+
+print(summary_table_23_cleaned)
+
+```
+
+
+```{r}
+# Current speed and heading for 2024 (calculate SD for entire study period)
+
+current_data_24 = current_data_24 %>%
+  filter(Time >= as.POSIXct("2024-03-06 UTC") & Time < as.POSIXct("2024-04-08 UTC")) 
+
+current_avg_sd_24 <- current_data_24 %>%
+  summarize(
+    mean_value = round(mean(`Speed (cm/s)`, na.rm = TRUE), 2),
+    sd_value = round(sd(`Speed (cm/s)`, na.rm = TRUE), 2),
+    min_value = round(min(`Speed (cm/s)`, na.rm = TRUE), 2),
+    max_value = round(max(`Speed (cm/s)`, na.rm = TRUE), 2)
+  ) %>%
+  mutate(Parameter = "Current Speed (cm/s)")
+
+# Wind speed for 2024 (calculate SD for entire study period)
+
+wind_data_24 = wind_data_24 %>%
+  filter(Time >= as.POSIXct("2024-03-06 UTC") & Time < as.POSIXct("2024-04-08 UTC")) 
+
+
+wind_avg_sd_24 <- wind_data_24 %>%
+  summarize(
+    mean_value = round(mean(`Wind Speed (kn)`, na.rm = TRUE), 2),
+    sd_value = round(sd(`Wind Speed (kn)`, na.rm = TRUE), 2),
+    min_value = round(min(`Wind Speed (kn)`, na.rm = TRUE), 2),
+    max_value = round(max(`Wind Speed (kn)`, na.rm = TRUE), 2)
+  ) %>%
+  mutate(Parameter = "Wind Speed (cm/s)")
+
+# Water level for 2024 (calculate SD for entire study period)
+
+
+NOAA_water_level_24 = NOAA_water_level_24 %>%
+  filter(Time >= as.POSIXct("2024-03-06 UTC") & Time < as.POSIXct("2024-04-08 UTC"))
+
+water_level_avg_sd_24 <- NOAA_water_level_24 %>%
+  summarize(
+    mean_value = round(mean(WL, na.rm = TRUE), 2),
+    sd_value = round(sd(WL, na.rm = TRUE), 2),
+    min_value = round(min(WL, na.rm = TRUE), 2),
+    max_value = round(max(WL, na.rm = TRUE), 2)
+  ) %>%
+  mutate(Parameter = "Water Level (m)")
+
+# Dissolved oxygen for 2024 (calculate SD for entire study period)
+DO_comparison_24 <- DO_comparison_24 %>%
+  filter(datetime >= as.POSIXct("2024-03-06 UTC") & datetime <= as.POSIXct("2024-04-08 UTC"))
+
+
+DO_avg_sd_24 <- DO_comparison_24 %>%
+  summarize(
+    mean_value = round(mean(mean_DO_mg_L, na.rm = TRUE), 2),
+    sd_value = round(sd(mean_DO_mg_L, na.rm = TRUE), 2),
+    min_value = round(min(mean_DO_mg_L, na.rm = TRUE), 2),
+    max_value = round(max(mean_DO_mg_L, na.rm = TRUE), 2)
+  ) %>%
+  mutate(Parameter = "Dissolved Oxygen (mg/L)")
+
+# Temperature for 2024 (calculate SD for entire study period)
+temp_avg_sd_24 <- DO_comparison_24 %>%
+  summarize(
+    mean_value = round(mean(mean_temp, na.rm = TRUE), 2),
+    sd_value = round(sd(mean_temp, na.rm = TRUE), 2),
+    min_value = round(min(mean_temp, na.rm = TRUE), 2),
+    max_value = round(max(mean_temp, na.rm = TRUE), 2)
+  ) %>%
+  mutate(Parameter = "Temperature (°C)")
+
+# Combine all average and SD summaries for the 2024 study period
+summary_table_avg_sd_24 <- bind_rows(
+  current_avg_sd_24,
+  wind_avg_sd_24,
+  water_level_avg_sd_24,
+  DO_avg_sd_24,
+  temp_avg_sd_24
+)
+# View the summary table with averages and SDs for the 2024 study period
+print(summary_table_avg_sd_24)
+# Rearrange columns for readability
+
+# Rearrange columns for readability
+summary_table_avg_sd_24 <- summary_table_avg_sd_24 %>%
+  select(Parameter, everything())
+
+# View the summary table with averages and SDs for the entire study period
+print(summary_table_avg_sd)
+
+# Create the table without row numbers and underscores in column names
+
+colnames(summary_table_avg_sd_24) <- gsub("mean", "Mean", colnames(summary_table_avg_sd_24))
+colnames(summary_table_avg_sd_24) <- gsub("min", "Min", colnames(summary_table_avg_sd_24))
+colnames(summary_table_avg_sd_24) <- gsub("max", "Max", colnames(summary_table_avg_sd_24))
+colnames(summary_table_avg_sd_24) <- gsub("sd", "SD", colnames(summary_table_avg_sd_24))
+
+summary_table_24_cleaned <- summary_table_avg_sd_24
+colnames(summary_table_24_cleaned) <- gsub("_value", " ", colnames(summary_table_24_cleaned))
+
+print(summary_table_24_cleaned)
+```
+
+```{r}
+# Step 1: First check the actual column names in your cleaned tables
+print(colnames(summary_table_23_cleaned))
+print(colnames(summary_table_24_cleaned))
+
+# Step 2: Combine the tables with corrected column names
+combined_summary_table <- bind_rows(
+  summary_table_23_cleaned,
+  summary_table_24_cleaned
+) %>%
+  # Use backticks or rename columns if they contain spaces
+  select(Year, Parameter, `Mean `, `SD `, `Min `, `Max `)  # Note the spaces!
+
+# Step 3: Clean up column names (remove trailing spaces)
+colnames(combined_summary_table) <- gsub("\\s+$", "", colnames(combined_summary_table))
+
+combined_summary_table <- combined_summary_table %>%
+  arrange(Parameter, Year)  # Primary sort by Parameter, secondary by Year
+# Step 4: Verify
+print(combined_summary_table)
+
+# Create basic table
+table_grob <- tableGrob(combined_summary_table, rows = NULL)
+
+# Save with tight dimensions
+ggsave("TableS1.png",
+       plot = table_grob,
+       width = ncol(combined_summary_table)*1.5,  # Dynamic width
+       height = nrow(combined_summary_table)*0.3, # Dynamic height 
+       units = "in",
+       dpi = 300,
+       limitsize = FALSE)
+```

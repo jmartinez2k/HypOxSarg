@@ -657,7 +657,7 @@ DO_plot_23 =
   geom_hline(yintercept = seq(0, 11, 1), color = "gray", linetype = "solid", size = 1, alpha = 0.5) +
   
   # Ensure fill is recognized as a factor
-  scale_fill_manual(values = c("5" = "#d9d9d9", "4" = "#bdbdbd", "3" = "#969696","2" = "#e31a1c"),
+  scale_fill_manual(values = c("5" = "#969696", "4" = "#606060", "3" = "#505050","2" = "#e31a1c"),
                     labels = c("2", "3", "4", "5"),
                     name = expression("Thresholds (mg" ~ L^-1 * ")")) +
   
@@ -882,7 +882,7 @@ print(NOAA_water_level_plot_23)
 
 # Extract DO legend 
 
-legends <- cowplot::get_legend(DO_plot_23)
+legend <- get_legend(DO_plot_23)
 
 print(legend)
 
@@ -906,8 +906,8 @@ ts_plot_23 <- temp_plot_23 +
 print(ts_plot_23)
 
 
-
 ggsave("ts_plot_23.jpg",ts_plot_23,width = 32, height = 24)
+ggsave("DO_plot_23.jpg",DO_plot_23,width = 32, height = 24)
 ```
 
 ## Time Series Late Winter 2024 Plot(s)
@@ -947,7 +947,7 @@ DO_plot_24 =
                 ymax = 5, fill = "5"), 
             alpha = 0.9, color = NA, show.legend = TRUE) +
   geom_line(data = DO_comparison_24, aes(x = datetime, y = mean_DO_mg_L), size = 2) +
-  scale_fill_manual(values = c("2" = "#e31a1c", "3" = "#969696", "4" = "#bdbdbd", "5" = "#d9d9d9"),
+  scale_fill_manual(values = c("2" = "#e31a1c", "3" = "#505050", "4" = "#606060", "5" = "#969696"),
                     labels = rev(c("5", "4", "3", "2")),
                     name = "Thresholds (mg/L)") +
   coord_cartesian(xlim = as.POSIXct(c("2024-03-06 UTC", "2024-04-08 UTC")), expand = FALSE) + 
@@ -1168,6 +1168,8 @@ ts_plot <- cowplot::plot_grid(ts_plot_23, ts_plot_24, ncol = 2, align = "h")
 # Extract the legend from one of the plots (e.g., DO_plot_23)
 legend <- cowplot::get_legend(DO_plot_23 + theme(legend.position = "bottom"))
 
+print(legend)
+
 # Combine the main plot and the legend
 fig2 <- cowplot::plot_grid(ts_plot, legend, ncol = 1, rel_heights = c(1, 0.1))
 
@@ -1194,7 +1196,7 @@ plot_duration_threshold_23 <- ggplot() +
            stat = "identity", position = "stack", alpha = 0.9) +
   geom_bar(data = event_hyp_2, aes(x = Date, y = dur_hrs, fill = threshold), 
            stat = "identity", position = "stack", alpha = 0.9) +
-  scale_fill_manual(values = c("5" = "#d9d9d9", "4" = "#bdbdbd", "3" = "#969696", "2" = "#e31a1c")) +
+  scale_fill_manual(values = c("5" = "#969696", "4" = "#606060", "3" = "#505050", "2" = "#e31a1c")) +
   scale_x_datetime(breaks = common_breaks_23, expand = common_expand, labels = function(x) format(x, "%m-%d")) +
   labs(title = " ", x = " ", y = "Duration (hours)\n", fill = "Threshold (mg/L)") +
   #scale_x_date(date_labels = "%m-%d", date_breaks = "weeks", expand = c(0, 1))+
@@ -1234,7 +1236,7 @@ plot_duration_threshold_24 <- ggplot() +
            stat = "identity", position = "stack", alpha = 0.9) +
   geom_bar(data = event_hyp_2_24, aes(x = Date, y = dur_hrs, fill = threshold), 
            stat = "identity", position = "stack", alpha = 0.9) +
-  scale_fill_manual(values = c("#d9d9d9", "#bdbdbd", "#969696", "#e31a1c")) +
+  scale_fill_manual(values = c("#969696", "#606060", "#505050", "#e31a1c")) +
   labs(title = " ", x = " ", y = "Duration (hours)", fill = "Threshold (mg/L)") +
   ylab("")+
   #scale_x_date(date_labels = "%m-%d", date_breaks = "week", expand = c(0, 1)) +
@@ -1414,7 +1416,7 @@ incubations_plot =
 ggsave("incubations_plot.jpg",incubations_plot,width = 32, height = 24)
 
 min_DO_Model_mgL <- ggplot(min_O2_per_day, aes(x = sarg_kg, y = min_O2_mg_L, color = factor(temp), shape = factor(tau), linetype = factor(tau))) +
-  scale_fill_manual(values = c("5" = "#d9d9d9", "4" = "#bdbdbd", "3" = "#969696","2" = "#e31a1c"),
+  scale_fill_manual(values = c("5" = "#969696", "4" = "#606060", "3" = "#505050","2" = "#e31a1c"),
                     labels = c("2", "3", "4", "5"),
                     name = "Thresholds (mg/L)") +
   geom_rect(aes(xmin = 0, 
@@ -1446,7 +1448,7 @@ min_DO_Model_mgL <- ggplot(min_O2_per_day, aes(x = sarg_kg, y = min_O2_mg_L, col
   labs(x = "\n Sargassum (kg)", y = expression("Nightly Minimum Dissolved Oxygen (mg " ~ L^-1 * ")")) +
   #scale_color_manual(name = "Temperature", values = c("#8856a7", "#31a354"), labels = c("28°C", "31°C")) +
   #scale_color_manual(name = "Temperature:", values = c("#2166ac", "#fdae61"), labels = c("28°C", "31°C")) +
-  scale_color_manual(name = "Temperature", values = c("#053061","#2166ac"), labels = c("28°C", "31°C")) +
+  scale_color_manual(name = "Temperature", values = c("#00B4FF","#00FF7F"), labels = c("28°C", "31°C")) +
   scale_shape_manual(name = "Residence Time", values = c("1" = 1, "5" = 15), labels = c("1 hr", "5 hr")) +
   scale_linetype_manual(name = "Residence Time", values = c("1" = "dashed", "5" = "solid"),labels = c("1 hr", "5 hr")) +
  # scale_linetype_manual(name = "Residence Time", values = c("1" = 4,2, "5" = "solid"), labels = c("1 hr", "5 hr")) +
