@@ -226,7 +226,11 @@ print(summary_table_24_cleaned)
 print(colnames(summary_table_23_cleaned))
 print(colnames(summary_table_24_cleaned))
 
-# Step 2: Combine the tables with corrected column names
+# Step 2: Add Year column if missing (e.g., if data was split by year)
+summary_table_23_cleaned$Year <- 2023  # Explicitly add year
+summary_table_24_cleaned$Year <- 2024
+
+# Step 3: Combine the tables with corrected column names
 combined_summary_table <- bind_rows(
   summary_table_23_cleaned,
   summary_table_24_cleaned
@@ -234,7 +238,7 @@ combined_summary_table <- bind_rows(
   # Use backticks or rename columns if they contain spaces
   select(Year, Parameter, `Mean `, `SD `, `Min `, `Max `)  # Note the spaces!
 
-# Step 3: Clean up column names (remove trailing spaces)
+# Step 4: Clean up column names (remove trailing spaces)
 colnames(combined_summary_table) <- gsub("\\s+$", "", colnames(combined_summary_table))
 
 combined_summary_table <- combined_summary_table %>%
