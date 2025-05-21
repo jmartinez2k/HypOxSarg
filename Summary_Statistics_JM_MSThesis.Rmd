@@ -158,10 +158,10 @@ NOAA_water_level_24 = NOAA_water_level_24 %>%
 
 water_level_avg_sd_24 <- NOAA_water_level_24 %>%
   summarize(
-    mean_value = round(mean(WL, na.rm = TRUE), 2),
-    sd_value = round(sd(WL, na.rm = TRUE), 2),
-    min_value = round(min(WL, na.rm = TRUE), 2),
-    max_value = round(max(WL, na.rm = TRUE), 2)
+    mean_value = round(mean(`Verified (m)`, na.rm = TRUE), 2),
+    sd_value = round(sd(`Verified (m)`, na.rm = TRUE), 2),
+    min_value = round(min(`Verified (m)`, na.rm = TRUE), 2),
+    max_value = round(max(`Verified (m)`, na.rm = TRUE), 2)
   ) %>%
   mutate(Parameter = "Water Level (m)")
 
@@ -206,7 +206,7 @@ summary_table_avg_sd_24 <- summary_table_avg_sd_24 %>%
   select(Parameter, everything())
 
 # View the summary table with averages and SDs for the entire study period
-print(summary_table_avg_sd)
+print(summary_table_avg_sd_24)
 
 # Create the table without row numbers and underscores in column names
 
@@ -223,8 +223,8 @@ print(summary_table_24_cleaned)
 
 ```{r}
 # Step 1: First check the actual column names in your cleaned tables
-print(colnames(summary_table_23_cleaned))
-print(colnames(summary_table_24_cleaned))
+#print(colnames(summary_table_23_cleaned))
+#print(colnames(summary_table_24_cleaned))
 
 # Step 2: Add Year column if missing (e.g., if data was split by year)
 summary_table_23_cleaned$Year <- 2023  # Explicitly add year
