@@ -3,7 +3,7 @@
 GitHub repository containing code accompanying the Hypoxia driven by caribbean sargassum accumulation events manuscript ()
 
 **Data Repository DOI:** 
-https://doi.org/
+https://doi.org/10.5281/zenodo.15678239
 
 
 **Authors:** Jose A Martinez Ortiz, Travis A Courtney, Jenniffer Perez Perez, Roy Armstrong, Juan J Cruz Motta
