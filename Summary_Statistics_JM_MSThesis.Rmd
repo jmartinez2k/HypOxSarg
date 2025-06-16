@@ -46,7 +46,7 @@ wind_avg_sd <- wind_data_23 %>%
   ) %>%
   mutate(Parameter = "Wind Speed (cm/s)")
 
-# Water level (calculate SD for entire study period)
+# Tidal Height (calculate SD for entire study period)
 
 # Convert the DateTime column to POSIXct if not already
 NOAA_water_level_23$Time <- as.POSIXct(NOAA_water_level_23$Time, tz = "UTC")
@@ -63,7 +63,7 @@ water_level_avg_sd <- NOAA_water_level_23 %>%
     min_value = round(min(`Verified (m)`, na.rm = TRUE), 2),
     max_value = round(max(`Verified (m)`, na.rm = TRUE), 2)
   ) %>%
-  mutate(Parameter = "Water Level (m)")
+  mutate(Parameter = "Tidal Height (m)")
 
 # Dissolved oxygen (calculate SD for entire study period)
 DO_comparison_23 <- DO_comparison_23 %>%
@@ -150,7 +150,7 @@ wind_avg_sd_24 <- wind_data_24 %>%
   ) %>%
   mutate(Parameter = "Wind Speed (cm/s)")
 
-# Water level for 2024 (calculate SD for entire study period)
+# Tidal Height for 2024 (calculate SD for entire study period)
 
 
 NOAA_water_level_24 = NOAA_water_level_24 %>%
@@ -163,7 +163,7 @@ water_level_avg_sd_24 <- NOAA_water_level_24 %>%
     min_value = round(min(`Verified (m)`, na.rm = TRUE), 2),
     max_value = round(max(`Verified (m)`, na.rm = TRUE), 2)
   ) %>%
-  mutate(Parameter = "Water Level (m)")
+  mutate(Parameter = "Tidal Height (m)")
 
 # Dissolved oxygen for 2024 (calculate SD for entire study period)
 DO_comparison_24 <- DO_comparison_24 %>%
